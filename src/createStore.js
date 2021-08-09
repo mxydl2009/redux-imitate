@@ -6,6 +6,10 @@
  */
 export default function createStore(reducer, preloadedState, enhancer) {
   // ---------------------------------------------
+  // 参数类型约束
+  if (typeof reducer !== 'function') {
+    throw new Error('reducer must be function')
+  }
   // 创建存储状态的对象
   const currentState = preloadedState || {}
 
@@ -19,6 +23,15 @@ export default function createStore(reducer, preloadedState, enhancer) {
 
   // 分发action
   function dispatch(action) {
+    // action约束: 包含type字段的对象
+    if (!isPlainObject(action)) { 
+      throw new Error('action must be an object')
+    }
+
+    if (typeof action.type === 'undefined') {
+      throw new Error('action must have type attribute')
+    }
+
     currentState = reducer(currentState, action)
     // 触发监听器
     for (let i = 0; i < listeners.length; i ++) {
@@ -36,4 +49,15 @@ export default function createStore(reducer, preloadedState, enhancer) {
     dispatch,
     subscribe
   }
+}
+
+function isPlainObject(obj) {
+  if (typeof obj !== 'object' || obj === null) return false
+  let proto = obj
+  while(Object.getPrototypeOf(proto) !== null) {
+    // 实际上相当于让proto = Object.prototype了
+    proto = Object.getPrototypeOf(proto)
+  }
+  // 相当于判断obj.__proto__ === Object.prototype
+  return proto === Object.getPrototypeOf(obj)
 }
