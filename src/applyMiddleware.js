@@ -2,6 +2,14 @@
  * 
  * @param  {...any} midlleware 中间件数组
  * 每个中间件都是形如(store) => (next) => (action) => { // 具体代码} 的函数 
+ * function middlewareExample(store) {
+ *   return function(next) {
+ *     return function(action) {
+*         console.log()
+*         next(action)
+ *     }
+ *   }
+ * }
  */
 export default function applyMiddleware(...midllewares) {
   // 返回一个函数作为enhancer
