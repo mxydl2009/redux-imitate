@@ -10,6 +10,15 @@ export default function createStore(reducer, preloadedState, enhancer) {
   if (typeof reducer !== 'function') {
     throw new Error('reducer must be function')
   }
+  // 判断enhancer是否传递，是否是函数
+  if (typeof enhancer !== 'undefined') {
+    // 传递了enhancer
+    if (typeof enhancer !== 'function') {
+      throw new Error('enhancer must be function')
+    }
+    // enhancer要创建具有更强功能的store
+    return enhancer(createStore)(reducer, preloadedState)
+  }
   // 创建存储状态的对象
   const currentState = preloadedState || {}
 
