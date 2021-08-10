@@ -34,7 +34,7 @@ export default function applyMiddleware(...midllewares) {
   }
 }
 
-function compose() {
+export function compose() {
   const funcs = [...arguments].reverse()
   return function(dispatch) {
     funcs.forEach(func => {
