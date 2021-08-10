@@ -1,6 +1,6 @@
 /**
  * 
- * @param  {...any} midlleware 中间件数组
+ * @param  {...() => {}} midlleware 中间件数组
  * 每个中间件都是形如(store) => (next) => (action) => { // 具体代码} 的函数 
  * function middlewareExample(store) {
  *   return function(next) {
